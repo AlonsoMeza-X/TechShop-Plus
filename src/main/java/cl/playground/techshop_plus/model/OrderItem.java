@@ -16,6 +16,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name="order_id", nullable = false)
     private Order order;
     @Column(name="product_name",nullable = false, length = 100)

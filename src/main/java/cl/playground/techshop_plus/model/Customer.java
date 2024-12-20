@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -24,8 +25,8 @@ public class Customer {
     @Column(name = "email", length = 100, nullable = false, unique = true) //unique = unico
     private String email;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "") soyelgary estuvo aqui, aprobado por Alonso
-    private List<Order> orders;
+    @ToString.Exclude
+    private List<Order> orders = new ArrayList<>();
     @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
