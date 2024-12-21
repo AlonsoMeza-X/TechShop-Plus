@@ -40,6 +40,14 @@ public class OrderMapper {
         );
     }
 
+    // PRUEBA
+//    public OrderDetailResponseDto toOrderDetailResponseDtoBuilder(Order order) {
+//        return OrderDetailResponseDto.builder()
+//                .customerName(order.getCustomer().getName())
+//                .orderId(order.getId())
+//                .build();
+//    }
+
     private List<OrderItemsDto> toOrderItemsDtoList(List<OrderItem> items) {
         return items.stream()
                 .map(this::toOrderItemsDto)

@@ -7,6 +7,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -19,4 +20,11 @@ public class OrderDetailResponseDto {
     private List<OrderItemsDto> items;
     private Long totalProducts;
 }
+
+/*
+*  INFORMACION DEL DETALLE DE LA ORDEN
+*  CONTENDRA:
+*   - MISMOS VALORES DE LA ORDEN GENERAL
+*   - INFORMACION ADICIONAL DE CADA PRODUCTO DE LA ORDEN
+*/
 

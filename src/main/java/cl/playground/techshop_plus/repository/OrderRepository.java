@@ -6,11 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -19,6 +15,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //    Optional<Order> findByTotalAmountOrderByCustomerName(Double totalAmount);
 //
 //    List<Order> findLatestOrdersByCustomer(int i, int i1);
+
+    /*
+    * Metodo que retorna todos los atributos de Order, ademas del nombre del customer, email del customer y total de items como numero.
+    *
+    */
     @Query(value = """
     SELECT 
         o.*, 
@@ -39,4 +40,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     """,
             nativeQuery = true)
     Page<Order> findAllOrdersWithDetails(Pageable pageable);
+
+
+    Page<Order> findAllByOrderByOrderDateDesc(Pageable pageable);
 }

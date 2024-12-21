@@ -25,7 +25,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
     @Column(name = "order_date")
     private LocalDateTime orderDate;

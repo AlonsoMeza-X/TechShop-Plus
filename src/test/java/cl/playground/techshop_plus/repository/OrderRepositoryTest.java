@@ -8,19 +8,14 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -32,10 +27,22 @@ class OrderRepositoryTest {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
-        LocalDateTime now = LocalDateTime.now();
+        // Primero las eliminaciones
+        orderItemRepository.deleteAllInBatch();
+        orderRepository.deleteAllInBatch();
+        customerRepository.deleteAllInBatch();
+
+        // Luego resetear los auto-incrementos para MySQL
+        entityManager.createNativeQuery("ALTER TABLE order_items AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE orders AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.createNativeQuery("ALTER TABLE customers AUTO_INCREMENT = 1").executeUpdate();
 
         // Crear cliente 1 con dos órdenes
         Customer customer1 = new Customer();
@@ -86,6 +93,23 @@ class OrderRepositoryTest {
         order3.setTotalAmount(150.0);
         entityManager.persist(order3);
 
+         /*SE CREA LA TERCERA ITEM A TRAVES DE LA TERCERA ORDEN
+         *SE REGISTRA EL TERCER ITEM
+         *
+         * - Funcion FLush()
+         *  -> garantiza que los datos  esten almacenados temporalmente en un buffer
+         *  -> (memoria intermedia) se envíen a su destino final.
+         *
+         * - funcion persist()
+         *  -> generalmente está relacionado con la persistencia de datos, es decir, guardar información de manera permanente
+         *  -> en un almacenamiento, como una base de datos o un archivo, para que pueda ser recuperada posteriormente.
+         *
+         *  -Diferencia entre persist() y merge() en JPA
+               -> persist(): Inserta una nueva entidad en el contexto de persistencia y la marca como gestionada.
+               -> merge(): Actualiza una entidad existente o la sincroniza con el contexto de persistencia.
+         *
+         * */
+
         OrderItem item3 = new OrderItem();
         item3.setOrder(order3);
         item3.setProductName("Producto 3");
@@ -113,6 +137,7 @@ class OrderRepositoryTest {
         List<Order> orders = ordersPage.getContent();
 
         System.out.println(orders);
+        System.out.println("orders" + orders.size());
 
         Order firstOrder = orders.get(0);
 
@@ -135,24 +160,61 @@ class OrderRepositoryTest {
         }
     }
 
-//    @Test
-//    void findLatestOrdersByCustomer_ShouldRespectPagination() {
-//        // Given
-//        List<Order> firstPage = orderRepository.findLatestOrdersByCustomer(1, 0);
-//
-//        // Then
-//        assertEquals(1, firstPage.size(),
-//                "La primera página debería contener solo una orden");
-//        assertEquals("Juan Pérez", firstPage.get(0).getCustomer().getName(),
-//                "La primera orden debería ser de Juan Pérez");
-//
-//        // When
-//        List<Order> secondPage = orderRepository.findLatestOrdersByCustomer(1, 1);
-//
-//        // Then
-//        assertEquals(1, secondPage.size(),
-//                "La segunda página debería contener solo una orden");
-//        assertEquals("María García", secondPage.get(0).getCustomer().getName(),
-//                "La segunda orden debería ser de María García");
-//    }
+    @Test
+    void findAllOrdersWithCustomerAndItems() {
+
+        // AGREGAMOS PAGINACION
+        Pageable pageable = PageRequest.of(0, 10);
+
+        /*
+        * PRIMERO OBTENGO LOS ELEMENTOS PAGINADOS
+        * DESPUES LOS ALMACENO EN UNA ESTRUCTURA DE DATOS COMO LO ES LA LISTA
+        */
+        Page<Order> ordersPage = orderRepository.findAllByOrderByOrderDateDesc(pageable);
+        List<Order> orders = ordersPage.getContent();
+        System.out.println(orders);
+
+        /*
+        * ORDERS CONTIENE UNA LISTA DE ELEMENTOS 'Order'
+        * USAMOS UN FOREACH PARA INTERACTUAR CON CADA ELEMENTO EN ESA LISTA
+        * CADA ORDER SOLO TIENE LA INFORMACION DE LA CLAVE FORANEA DE LOS CUSTOMER
+        * USAMOS EL ID DE LA FORANEA PARA APROVECHAR EL REPOSITORIO DEL CUSTOMER PARA RECUPERAR TODOS SUS REGISTROS
+        * FINALMENTE ASIGNAMOS EL CUSTOMER RECUPERADO AL ATRIBUTO CORRESPONDIENTE DE LA CLASE ORDER
+        */
+        for (Order order : orders) {
+            Customer customer = customerRepository.findById(order.getCustomer().getId()).orElse(null);
+            order.setCustomer(customer);
+        }
+        System.out.println(orders);
+
+        /*
+        * USAMOS OTRO TIPO DE FOR, DETENIENDOLO UN ELEMENTO ANTES DEL SIZE PARA NO EXCEDER EL LIMITE
+        * POR CADA Order EN EL LISTADO LE RECUPERAMOS UN LISTADO DE Items QUE APUNTAN AL ID DE LA Order
+        * PARA POSTERIORMENTE ASIGNARLO A LA ORDER LA CUAL TIENE UN LIST<OrderItems> ESPERANDOLO.
+        */
+        for (int i = 0 ; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            List<OrderItem> items = orderItemRepository.findByOrder_Id(order.getId());
+            order.setOrderItems(items);
+        }
+        System.out.println(orders);
+
+        Order firstorder = orders.get(0);
+        assertEquals(3, firstorder.getId());
+        assertEquals("María García", firstorder.getCustomer().getName());
+        assertEquals("maria@email.com", firstorder.getCustomer().getEmail());
+        assertEquals(1, firstorder.getOrderItems().size());
+
+        Order secondOrder = orders.get(1);
+        assertEquals(2, secondOrder.getId());
+        assertEquals("Juan Pérez", secondOrder.getCustomer().getName());
+        assertEquals("juan@email.com", secondOrder.getCustomer().getEmail());
+        assertEquals(1, secondOrder.getOrderItems().size());
+
+        Order thirdOrder = orders.get(2);
+        assertEquals(1, thirdOrder.getId());
+        assertEquals("Juan Pérez", thirdOrder.getCustomer().getName());
+        assertEquals("juan@email.com", thirdOrder.getCustomer().getEmail());
+    }
+
 }
