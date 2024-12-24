@@ -4,6 +4,7 @@ import lombok.*;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -12,7 +13,15 @@ public class OrderItemsDto {
     private Double price;
     private Integer quantity;
     private Double subTotal;
+
+
+   // public OrderItemsDto() {}
+
+
+
 }
+
+// @RequiredArgsConstructor, te obliga a tener los argumentos que tiene "final" como parte del atributo.
 
 /*
 * INFORMACION DETALLADA DE CADA ITEM QUE SERA PRESENTADO EN EL DETALLE DE ORDEN

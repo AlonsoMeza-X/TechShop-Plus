@@ -42,5 +42,33 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Page<Order> findAllOrdersWithDetails(Pageable pageable);
 
 
+
     Page<Order> findAllByOrderByOrderDateDesc(Pageable pageable);
+
+//    Query a modificar
+//
+//    @Query(value = """
+//    SELECT
+//        o.*,
+//        c.name as customer_name,
+//        c.email as customer_email,
+//        COUNT(oi.id) as total_items
+//    FROM orders o
+//    INNER JOIN customers c ON o.customer_id = c.id
+//    LEFT JOIN order_items oi ON o.id = oi.order_id
+//    GROUP BY o.id, c.id
+//    ORDER BY o.order_date DESC
+//    LIMIT :#{#pageable.pageSize}
+//    OFFSET :#{#pageable.offset}
+//    """,
+//            countQuery = """
+//    SELECT COUNT(DISTINCT o.id)
+//    FROM orders o
+//    """,
+//            nativeQuery = true)
+//    Page<Order> findAllOrdersWithDetails(Pageable pageable);
+//
+//
+//
+//    Page<Order> findAllByOrderByOrderDateDesc(Pageable pageable);
 }

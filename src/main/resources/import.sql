@@ -1,0 +1,101 @@
+-- Insertar datos en la tabla customers
+INSERT INTO customers (email, name) VALUES ('john.doe@example.com', 'John Doe');
+INSERT INTO customers (email, name) VALUES ('jane.smith@example.com', 'Jane Smith');
+INSERT INTO customers (email, name) VALUES ('paul.jones@example.com', 'Paul Jones');
+INSERT INTO customers (email, name) VALUES ('mary.johnson@example.com', 'Mary Johnson');
+INSERT INTO customers (email, name) VALUES ('michael.brown@example.com', 'Michael Brown');
+INSERT INTO customers (email, name) VALUES ('linda.white@example.com', 'Linda White');
+INSERT INTO customers (email, name) VALUES ('robert.harris@example.com', 'Robert Harris');
+INSERT INTO customers (email, name) VALUES ('patricia.king@example.com', 'Patricia King');
+INSERT INTO customers (email, name) VALUES ('james.lee@example.com', 'James Lee');
+INSERT INTO customers (email, name) VALUES ('elizabeth.wilson@example.com', 'Elizabeth Wilson');
+INSERT INTO customers (email, name) VALUES ('steven.moore@example.com', 'Steven Moore');
+INSERT INTO customers (email, name) VALUES ('emma.taylor@example.com', 'Emma Taylor');
+INSERT INTO customers (email, name) VALUES ('oliver.martin@example.com', 'Oliver Martin');
+INSERT INTO customers (email, name) VALUES ('sophia.clark@example.com', 'Sophia Clark');
+INSERT INTO customers (email, name) VALUES ('william.hall@example.com', 'William Hall');
+INSERT INTO customers (email, name) VALUES ('mia.young@example.com', 'Mia Young');
+INSERT INTO customers (email, name) VALUES ('lucas.allen@example.com', 'Lucas Allen');
+INSERT INTO customers (email, name) VALUES ('ava.king@example.com', 'Ava King');
+INSERT INTO customers (email, name) VALUES ('benjamin.scott@example.com', 'Benjamin Scott');
+INSERT INTO customers (email, name) VALUES ('isabella.green@example.com', 'Isabella Green');
+INSERT INTO customers (email, name) VALUES ('jacob.wright@example.com', 'Jacob Wright');
+INSERT INTO customers (email, name) VALUES ('amelia.walker@example.com', 'Amelia Walker');
+INSERT INTO customers (email, name) VALUES ('ethan.robinson@example.com', 'Ethan Robinson');
+INSERT INTO customers (email, name) VALUES ('harper.adams@example.com', 'Harper Adams');
+INSERT INTO customers (email, name) VALUES ('mason.baker@example.com', 'Mason Baker');
+INSERT INTO customers (email, name) VALUES ('ella.carter@example.com', 'Ella Carter');
+INSERT INTO customers (email, name) VALUES ('logan.mitchell@example.com', 'Logan Mitchell');
+INSERT INTO customers (email, name) VALUES ('charlotte.roberts@example.com', 'Charlotte Roberts');
+INSERT INTO customers (email, name) VALUES ('alexander.evans@example.com', 'Alexander Evans');
+INSERT INTO customers (email, name) VALUES ('scarlett.phillips@example.com', 'Scarlett Phillips');
+
+-- Insertar datos en la tabla orders
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (150.75, 1, '2024-12-01 14:30:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (220.50, 2, '2024-12-02 10:15:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (300.00, 3, '2024-12-03 16:45:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (450.00, 4, '2024-12-04 11:00:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (175.00, 5, '2024-12-05 09:45:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (280.00, 6, '2024-12-06 14:20:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (310.00, 7, '2024-12-07 17:30:00', 'Shipped');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (95.00, 8, '2024-12-08 12:10:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (400.00, 9, '2024-12-09 16:50:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (225.50, 10, '2024-12-10 13:15:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (345.60, 11, '2024-12-11 11:30:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (185.40, 12, '2024-12-12 15:45:00', 'Shipped');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (90.50, 13, '2024-12-13 10:00:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (130.25, 14, '2024-12-14 18:15:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (275.75, 15, '2024-12-15 09:00:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (410.00, 16, '2024-12-16 20:30:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (190.25, 17, '2024-12-17 14:10:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (225.00, 18, '2024-12-18 11:45:00', 'Shipped');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (340.00, 19, '2024-12-19 16:30:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (275.30, 20, '2024-12-20 12:50:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (300.25, 21, '2024-12-21 09:20:00', 'Shipped');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (150.75, 22, '2024-12-22 15:10:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (400.75, 23, '2024-12-23 13:25:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (95.50, 24, '2024-12-24 10:10:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (130.75, 25, '2024-12-25 17:30:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (265.40, 26, '2024-12-26 16:10:00', 'Shipped');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (320.75, 27, '2024-12-27 11:00:00', 'Pending');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (295.20, 28, '2024-12-28 20:10:00', 'Completed');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (220.50, 29, '2024-12-29 19:45:00', 'Cancelled');
+INSERT INTO orders (total_amount, customer_id, order_date, status) VALUES (195.30, 30, '2024-12-30 12:15:00', 'Shipped');
+
+
+-- Insertar datos en la tabla order_items
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (50.25, 2, 1, 'Product A');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (100.50, 1, 1, 'Product B');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (75.00, 3, 2, 'Product C');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (150.00, 2, 3, 'Product D');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (85.00, 1, 4, 'Product E');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (200.00, 1, 4, 'Product F');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (50.00, 4, 5, 'Product G');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (120.00, 2, 6, 'Product H');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (40.00, 5, 7, 'Product I');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (95.00, 3, 8, 'Product J');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (55.50, 1, 9, 'Product K');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (70.25, 2, 10, 'Product L');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (90.00, 1, 11, 'Product M');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (35.75, 3, 12, 'Product N');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (25.50, 5, 13, 'Product O');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (65.00, 1, 14, 'Product P');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (100.00, 2, 15, 'Product Q');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (80.25, 3, 16, 'Product R');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (45.75, 4, 17, 'Product S');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (110.00, 2, 18, 'Product T');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (95.50, 1, 19, 'Product U');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (75.75, 2, 20, 'Product V');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (120.00, 3, 21, 'Product W');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (65.25, 4, 22, 'Product X');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (50.50, 1, 23, 'Product Y');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (85.00, 2, 24, 'Product Z');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (75.75, 3, 25, 'Product AA');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (95.25, 4, 26, 'Product BB');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (60.50, 1, 27, 'Product CC');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (80.75, 2, 28, 'Product DD');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (125.00, 3, 29, 'Product EE');
+INSERT INTO order_items (price, quantity, order_id, product_name) VALUES (50.00, 4, 30, 'Product FF');
+
+-- Insertar datos en la tabla order_items
+-- Si necesitas 30 elementos para cada orden, dímelo y detallaré los items para cada pedido.
