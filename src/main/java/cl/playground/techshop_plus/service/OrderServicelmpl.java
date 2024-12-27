@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrderServicelmpl implements OrderService  {
+public class OrderServicelmpl implements OrderService {
 
     /*
-    * Variables necesarias para poder hacer inyeccion de dependencias
-    * De esta forma podemos aprovechar los beneficios creados en esas clases
-    * Dentro de la que estamos construyendo actualmente
-    */
+     * Variables necesarias para poder hacer inyeccion de dependencias
+     * De esta forma podemos aprovechar los beneficios creados en esas clases
+     * Dentro de la que estamos construyendo actualmente
+     */
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final CustomerRepository customerRepository;
@@ -33,7 +33,7 @@ public class OrderServicelmpl implements OrderService  {
     /*
      * Como las variables asignadas arriba son de tipo 'final'
      * El constructor esta obligado a usarlas todas
-    */
+     */
     public OrderServicelmpl(OrderRepository orderRepository, OrderItemRepository orderItemRepository, CustomerRepository customerRepository, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
@@ -42,12 +42,12 @@ public class OrderServicelmpl implements OrderService  {
     }
 
     /*
-    * Funcion que trabaja con paginacion
-    * Recibe un objeto de paginacion como solicitud
-    * Retorna un conjunto de datos 'OrderResponseDTo'
-    * Entregados de acuerdo a las cantidades especificadas en la paginacion
-    * Este metodo utiliza una Query SQL Nativa para funcionar.
-    */
+     * Funcion que trabaja con paginacion
+     * Recibe un objeto de paginacion como solicitud
+     * Retorna un conjunto de datos 'OrderResponseDTo'
+     * Entregados de acuerdo a las cantidades especificadas en la paginacion
+     * Este metodo utiliza una Query SQL Nativa para funcionar.
+     */
     @Override
     public Page<OrderRespondeDto> findAllOrdersSimplifiedQuery(Pageable pageable) {
         return orderRepository.findAllOrdersWithDetails(pageable)
@@ -71,10 +71,10 @@ public class OrderServicelmpl implements OrderService  {
     }
 
     /*
-    * Recibe los datos a traves de un metodo propio de JPA/Hibernate
-    * De esta forma obtiene los datos aprovechando el mapeo de Hibernate de las entidades
-    * Recibe un conjunto de datos y los almacena en un DTO no especifico para su uso
-    */
+     * Recibe los datos a traves de un metodo propio de JPA/Hibernate
+     * De esta forma obtiene los datos aprovechando el mapeo de Hibernate de las entidades
+     * Recibe un conjunto de datos y los almacena en un DTO no especifico para su uso
+     */
     @Override
     public Page<OrderRespondeDto> findAllOrdersSimplifiedHibernate(Pageable pageable) {
         Page<Order> ordersPage = orderRepository.findAllByOrderByOrderDateDesc(pageable);
@@ -112,5 +112,10 @@ public class OrderServicelmpl implements OrderService  {
                 pageable,
                 orderPage.getTotalElements()
         );
+    }
+
+    @Override
+    public OrderDetailResponseDto findOrderDetailById(Long id) {
+        return orderMapper.toOrderDetailResponseDto(orderRepository.findById(id).orElse(null));
     }
 }

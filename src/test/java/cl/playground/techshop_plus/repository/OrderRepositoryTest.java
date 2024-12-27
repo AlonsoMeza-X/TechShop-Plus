@@ -24,7 +24,6 @@ class OrderRepositoryTest {
 
     @Autowired
     private EntityManager entityManager;
-
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -215,6 +214,54 @@ class OrderRepositoryTest {
         assertEquals(1, thirdOrder.getId());
         assertEquals("Juan Pérez", thirdOrder.getCustomer().getName());
         assertEquals("juan@email.com", thirdOrder.getCustomer().getEmail());
+    }
+
+    @Test
+    void findOrderWithDetails_ShouldReturnOrderDetails() {
+        // Given
+        Long orderId = 1L; // ID de la orden creada en el setup
+
+        // When
+        Order order = orderRepository.findById(orderId).orElse(null);
+
+        // Then
+        assertNotNull(order, "La orden no debería ser null");
+        assertEquals("completed", order.getStatus(), "El estado de la orden no coincide");
+        assertEquals(100.0, order.getTotalAmount(), "El monto total no coincide");
+
+        System.out.println(order);
+
+        // Verificar detalles del cliente
+        Customer customer = order.getCustomer();
+        assertNotNull(customer, "El cliente no debería ser null");
+        assertEquals("Juan Pérez", customer.getName(), "El nombre del cliente no coincide");
+        assertEquals("juan@email.com", customer.getEmail(), "El correo del cliente no coincide");
+
+        System.out.println(order);
+
+        // Verificar elementos de la orden
+        List<OrderItem> orderItems = order.getOrderItems();
+        assertNotNull(orderItems, "Los elementos de la orden no deberían ser null");
+        assertEquals(1, orderItems.size(), "La cantidad de elementos de la orden no coincide");
+
+        System.out.println(order);
+
+        // Verificar detalles de los elementos
+        OrderItem item1 = orderItems.get(0);
+        assertEquals("Producto 1", item1.getProductName(), "El nombre del producto no coincide");
+        assertEquals(50.0, item1.getPrice(), "El precio del producto no coincide");
+        assertEquals(2, item1.getQuantity(), "La cantidad del producto no coincide");
+
+        System.out.println(order);
+
+        /*
+        OrderItem item2 = orderItems.get(1);
+        assertEquals("Producto 2", item2.getProductName(), "El nombre del producto no coincide");
+        assertEquals(100.0, item2.getPrice(), "El precio del producto no coincide");
+        assertEquals(1, item2.getQuantity(), "La cantidad del producto no coincide");
+
+        System.out.println(order);
+        */
     }
 
 }

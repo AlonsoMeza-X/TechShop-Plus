@@ -23,6 +23,7 @@
                         <th>Total Productos</th>
                         <th>Monto Total</th>
                         <th>Estado</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,13 @@
                                         (order.status == 'CANCELLED' ? 'bg-danger' : '')}"
                                           th:text="${order.status}">
                                     </span>
+                        </td>
+                        <td class="text-center">
+                            <a th:href="@{/orders/detail/{id}(id=${order.orderId})}"
+                                class="btn btn-primary btn-sm"
+                               title="Ver Detalle">
+                                <i class="bi bi-eye-fill"></i> Ver Detalle
+                            </a>
                         </td>
                     </tr>
                     </tbody>

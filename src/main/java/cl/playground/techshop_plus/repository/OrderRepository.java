@@ -21,8 +21,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     *
     */
     @Query(value = """
-    SELECT 
-        o.*, 
+    SELECT
+        o.*,
         c.name as customer_name,
         c.email as customer_email,
         COUNT(oi.id) as total_items
@@ -31,19 +31,61 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     LEFT JOIN order_items oi ON o.id = oi.order_id
     GROUP BY o.id, c.id
     ORDER BY o.order_date DESC
-    LIMIT :#{#pageable.pageSize} 
+    LIMIT :#{#pageable.pageSize}
     OFFSET :#{#pageable.offset}
     """,
             countQuery = """
-    SELECT COUNT(DISTINCT o.id) 
+    SELECT COUNT(DISTINCT o.id)
     FROM orders o
     """,
             nativeQuery = true)
     Page<Order> findAllOrdersWithDetails(Pageable pageable);
 
-
-
     Page<Order> findAllByOrderByOrderDateDesc(Pageable pageable);
+
+    /*
+    @Query(value = """
+    SELECT 
+        o.*, 
+        c.name as customer_name,
+        c.email as customer_email,
+        COUNT(oi.id) as total_items
+    FROM orders o
+    INNER JOIN customers c ON o.customer_id = c.id
+    LEFT JOIN order_items oi ON o.id = oi.order_id
+    WHERE o.id = :orderId
+    GROUP BY o.id, c.id
+    """,
+            countQuery = """
+    SELECT COUNT(DISTINCT o.id) 
+    FROM orders o
+    WHERE o.id = :orderId
+    """,
+            nativeQuery = true)
+
+     */
+
+    /*
+    @Query(value = """
+    SELECT DISTINCT
+        o.*,
+        c.name as customer_name,
+        c.email as customer_email,
+        oi.id as item_id,
+        oi.product_name,
+        oi.price,
+        oi.quantity
+    FROM orders o
+    INNER JOIN customers c ON o.customer_id = c.id
+    LEFT JOIN order_items oi ON o.id = oi.order_id
+    WHERE o.id = :orderId
+    """,
+            nativeQuery = true)
+    Order findOrderDetailById(Long id);
+
+     */
+
+
 
 //    Query a modificar
 //

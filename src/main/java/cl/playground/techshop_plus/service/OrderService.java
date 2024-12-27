@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 public interface OrderService {
 
     Page<OrderRespondeDto> findAllOrdersSimplifiedQuery(Pageable pageable);
+
     Page<OrderDetailResponseDto> findAllOrdersWithDetailsQuery(Pageable pageable);
 
 
     Page<OrderRespondeDto> findAllOrdersSimplifiedHibernate(Pageable pageable);
+
     Page<OrderDetailResponseDto> findAllOrdersWithDetailsHibernate(Pageable pageable);
+
+    OrderDetailResponseDto findOrderDetailById(Long id);
 
 }
