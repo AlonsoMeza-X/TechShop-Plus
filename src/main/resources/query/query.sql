@@ -49,20 +49,68 @@ GROUP BY
 -- 6. La consulta debe ordenar los resultados por monto total generado de manera descendente
 
 SELECT
-    oi.order_items,
-    COUNT(o.status WHERE 'Completed' and 'Cancelled'),
-
-    o.total_amount
+    oi.product_name AS nombre_producto, -- Seleccionamos el nombre del producto para identificarlo.
+    SUM(oi.quantity) AS cantidad_total_vendida, -- Sumamos la cantidad de unidades vendidas de cada producto.
+    COUNT(DISTINCT oi.order_id) AS numero_de_ordenes, -- Contamos cuántas órdenes diferentes incluyen este producto.
+    AVG(oi.price) AS precio_promedio, -- Calculamos el precio promedio al que se ha vendido el producto.
+    SUM(oi.price * oi.quantity) AS monto_total_generado -- Multiplicamos precio por cantidad para cada fila y sumamos para obtener el total generado.
 FROM
+    order_items oi -- Trabajamos sobre la tabla `order_items` que contiene los detalles de cada producto vendido.
+GROUP BY
+    oi.product_name -- Agrupamos los datos por el nombre del producto para obtener resultados específicos por producto.
+ORDER BY
+    monto_total_generado DESC; -- Ordenamos los resultados por el monto total generado, de mayor a menor.
+
+
+-- Análisis de Ventas por Periodo
+-- Implementar una consulta que muestre por mes:
+-- 1. Mes y año
+-- 2. Cantidad de órdenes
+-- 3. Número de clientes diferentes que compraron
+-- 4. Total de productos vendidos
+-- 5. Monto total de ventas
+-- 6. Comparación porcentual de ventas respecto al mes anterior
+
+SELECT
+    -- Formateamos la fecha del pedido para que muestre únicamente el año y mes (en formato 'YYYY-MM').
+    DATE_FORMAT(o.order_date, '%Y-%m') AS mes_anio,
+
+    -- Contamos el número total de órdenes distintas en cada mes.
+    COUNT(DISTINCT o.id) AS cantidad_de_ordenes,
+
+    -- Contamos el número de clientes únicos que realizaron pedidos en cada mes.
+    COUNT(DISTINCT o.customer_id) AS clientes_diferentes,
+
+    -- Calculamos la suma total de los productos vendidos (cantidad) en cada mes.
+    SUM(oi.quantity) AS total_productos_vendidos,
+
+    -- Calculamos el monto total generado por las ventas (precio * cantidad) en cada mes.
+    SUM(oi.price * oi.quantity) AS monto_total_ventas,
+
+    -- Calculamos la comparación porcentual de las ventas con respecto al mes anterior:
+    -- Usamos la función LAG para obtener el monto total de ventas del mes anterior.
+    (SUM(oi.price * oi.quantity) -
+     LAG(SUM(oi.price * oi.quantity)) OVER (ORDER BY DATE_FORMAT(o.order_date, '%Y-%m'))
+        ) /
+    LAG(SUM(oi.price * oi.quantity)) OVER (ORDER BY DATE_FORMAT(o.order_date, '%Y-%m')) * 100
+    AS comparacion_porcentual
+FROM
+    -- Usamos la tabla de órdenes como base.
     orders o
-        INNER JOIN
-    customers c ON o.customer_id = c.id
+
+        -- Hacemos un LEFT JOIN con la tabla de productos en las órdenes, para obtener información de cada producto.
         LEFT JOIN
     order_items oi ON o.id = oi.order_id
-GROUP BY o.id, c.id
-ORDER BY o.total_amount DESC
 
+WHERE
+    -- Filtramos las órdenes que estén en el rango de fechas específico (en este caso, diciembre de 2024).
+    o.order_date BETWEEN '2024-12-01' AND '2024-12-31'
 
+GROUP BY
+    -- Agrupamos los resultados por mes y año.
+    mes_anio
 
-
+ORDER BY
+    -- Ordenamos los resultados de manera cronológica, mes por mes.
+    mes_anio;
 
